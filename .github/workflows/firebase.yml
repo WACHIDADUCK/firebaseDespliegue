@@ -13,7 +13,8 @@ on:
 # Jobs a ejecutar
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    name: Deploy to firebase
+    runs-on: ubuntu-22.04
 
     steps:
       # Step 1: Check out the code del repositorio
