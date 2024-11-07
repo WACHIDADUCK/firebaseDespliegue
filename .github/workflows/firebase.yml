@@ -27,8 +27,8 @@ jobs:
           node-version: '16'  # O la versión que necesitas
 
       # Step 3: Instala las dependencias
-      - name: Install dependencies
-        run: npm install
+      #- name: Install dependencies
+      #  run: npm install
 
       # Step 4: Autentica con Firebase CLI
       - name: Authenticate to Firebase
