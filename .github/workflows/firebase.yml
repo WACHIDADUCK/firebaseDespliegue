@@ -1,5 +1,4 @@
-yaml
-Copiar código
+
 # .github/workflows/firebase.yml
 
 name: Deploy to Firebase Hosting
