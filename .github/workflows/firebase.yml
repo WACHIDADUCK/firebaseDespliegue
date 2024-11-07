@@ -30,6 +30,11 @@ jobs:
       # Step 3: Instala las dependencias
       #- name: Install dependencies
       #  run: npm install
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Actualizado a la versión 18 o superior
+      
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
