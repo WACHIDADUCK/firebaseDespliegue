@@ -1,0 +1,43 @@
+yaml
+Copiar código
+# .github/workflows/firebase.yml
+
+name: Deploy to Firebase Hosting
+
+# Se ejecuta cuando hay un push en la rama principal
+on:
+  push:
+    branches:
+      - main
+
+# Jobs a ejecutar
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the code del repositorio
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      # Step 2: Configura el entorno de Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'  # O la versión que necesitas
+
+      # Step 3: Instala las dependencias
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Autentica con Firebase CLI
+      - name: Authenticate to Firebase
+        env:
+          FIREBASE_SERVICE_ACCOUNT_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_KEY }}
+        run: echo "$FIREBASE_SERVICE_ACCOUNT_KEY" | firebase login:ci --no-localhost
+
+      # Step 5: Despliega en Firebase Hosting
+      - name: Deploy to Firebase
+        env:
+          FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: firebase deploy --only hosting --project $FIREBASE_PROJECT_ID
