@@ -75,3 +75,8 @@
   span{
     font-weight: bold;
   }
+  .centrado{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
