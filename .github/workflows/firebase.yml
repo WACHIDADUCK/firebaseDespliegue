@@ -1,41 +1,21 @@
 name: Deploy to Firebase Hosting
 
-# Se ejecuta cuando hay un push en la rama principal
 on:
   push:
     branches:
-      - main
+      - main  # Change this to your desired branch
 
-# Jobs a ejecutar
 jobs:
-  deploy:
-    name: Deploy to Firebase
-    runs-on: ubuntu-22.04
+  build:
+    runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the code del repositorio
-      - name: Check out code
-        uses: actions/checkout@v3
-
-      # Step 2: Configura el entorno de Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'  # Usar la versión 18 o superior de Node.js
-     
-      # Step 3: Instalar Firebase CLI
-      - name: Install Firebase CLI
-        run: npm install -g firebase-tools
-
-      # Paso 4: Decodificación del secreto Base64 a un archivo JSON
-      - name: Decode Firebase Service Account Key
-        run: echo "$FIREBASE_SERVICE_ACCOUNT_KEY" | base64 --decode > "${HOME}/firebase-service-account.json"
-
-      # Paso 5: Establecer la variable de entorno GOOGLE_APPLICATION_CREDENTIALS
-      - name: Set GOOGLE_APPLICATION_CREDENTIALS environment variable
-        run: echo "GOOGLE_APPLICATION_CREDENTIALS=${HOME}/firebase-service-account.json" >> $GITHUB_ENV
-
-      # Paso 6: Desplegar en Firebase Hosting
+      - name: Checkout Repo
+        uses: actions/checkout@master
       - name: Deploy to Firebase
-        run: firebase deploy --only hosting --project ${{ secrets.FIREBASE_PROJECT_ID }}
+        uses: docker://w9jds/firebase-action:master
+        with:
+          args: deploy --only hosting
+        env:
+          GCP_SA_KEY: ${{ secrets.GCP_SA_KEY }}
 
